@@ -1,4 +1,4 @@
-import { DefineComponent, defineComponent, h, inject, provide, Suspense, Transition } from 'vue'
+import { DefineComponent, defineComponent, h, inject, nextTick, provide, Suspense, Transition } from 'vue'
 import { RouteLocationNormalized, RouteLocationNormalizedLoaded, RouterView } from 'vue-router'
 
 import { generateRouteKey, RouterViewSlotProps, wrapInKeepAlive } from './utils'
@@ -37,7 +37,7 @@ export default defineComponent({
           const transitionProps = routeProps.route.meta.pageTransition ?? defaultPageTransition
 
           if (process.dev && process.client && transitionProps && pageComponent) {
-            setTimeout(() => {
+            nextTick(() => {
               if (pageComponent.el?.nodeName === '#comment') {
                 const filename = (pageComponent.type as any).__file
                 console.error(`\`${filename}\` does not have a single root node and will cause errors when navigating between routes.`)
